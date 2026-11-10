@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#C9440D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Plano 83 kg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="apple-touch-icon.png">
+<title>Plano para 83 kg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* layout: one column, 640px max; today's training card first, then base plan, boosts, log, adjustment rules */
+  --bg:#F2F4F7; --surface:#FFFFFF; --ink:#141A26; --muted:#5A6476; --line:#DDE2EA;
+  --accent:#C9440D; --accent-soft:#FBE7DC; --on-accent:#FFFFFF;
+  --good:#1E7A4C; --good-soft:#DFF1E7; --warn:#8F5300; --warn-soft:#FAEED6;
+  --font-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --font-body:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1118; --surface:#161C27; --ink:#E8ECF2; --muted:#9CA6B7; --line:#283244;
+    --accent:#FF7B3F; --accent-soft:#3B2116; --on-accent:#1A0B04;
+    --good:#5ED39B; --good-soft:#12301F; --warn:#F1B656; --warn-soft:#382811;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1118; --surface:#161C27; --ink:#E8ECF2; --muted:#9CA6B7; --line:#283244;
+  --accent:#FF7B3F; --accent-soft:#3B2116; --on-accent:#1A0B04;
+  --good:#5ED39B; --good-soft:#12301F; --warn:#F1B656; --warn-soft:#382811;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:17px;line-height:1.45;-webkit-text-size-adjust:100%}
+main{max-width:640px;margin:0 auto;padding:22px 16px 48px;display:flex;flex-direction:column;gap:18px}
+h1,h2{font-family:var(--font-display);font-weight:700;margin:0;line-height:1.05;text-wrap:balance}
+h1{font-size:42px;letter-spacing:.01em}
+h2{font-size:24px;text-transform:uppercase;letter-spacing:.05em}
+p{margin:0}
+.sub{color:var(--muted);max-width:60ch}
+.num{font-variant-numeric:tabular-nums}
+header{display:flex;flex-direction:column;gap:8px}
+.stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:15px;color:var(--muted)}
+.stat b{font-family:var(--font-display);font-size:19px;color:var(--ink);font-variant-numeric:tabular-nums}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.card.hoje{border:2px solid var(--accent)}
+.label{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.group{display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-weight:600;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:8px 16px;min-height:44px;cursor:pointer}
+.chip small{font-weight:400;color:var(--muted);margin-left:4px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.chip[aria-pressed="true"] small{color:inherit;opacity:.8}
+.km{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.km span{color:var(--muted)}
+.step{font:inherit;font-size:22px;font-weight:700;width:44px;height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;line-height:1}
+.km input{width:72px;text-align:center;font-family:var(--font-display);font-size:24px;font-weight:700}
+input,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;min-height:44px;width:100%}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.result{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px;background:var(--accent-soft);border-radius:10px}
+.result .n{display:flex;align-items:baseline;gap:8px}
+.big{font-family:var(--font-display);font-size:60px;font-weight:700;line-height:.85;color:var(--accent);font-variant-numeric:tabular-nums}
+.big-label{font-family:var(--font-display);font-size:24px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.kcal{text-align:right;color:var(--muted);font-size:15px}
+.kcal b{display:block;font-family:var(--font-display);font-size:28px;color:var(--ink);font-variant-numeric:tabular-nums}
+ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+ul.plain li{padding-left:16px;position:relative}
+ul.plain li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;border-radius:2px;background:var(--accent)}
+ul.plain.tips li::before{background:var(--muted)}
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:108px 1fr auto;gap:12px;padding:11px 0;border-top:1px solid var(--line);align-items:baseline}
+.row:first-child{border-top:0;padding-top:0}
+.row .when{font-family:var(--font-display);font-weight:700;font-size:18px;text-transform:uppercase;letter-spacing:.03em}
+.row .k{font-family:var(--font-display);font-weight:600;font-size:19px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.row .k small{font-family:var(--font-body);font-size:13px;color:var(--muted);font-weight:400}
+.row.total{border-top:2px solid var(--ink);padding-top:10px}
+.row.total .k{font-size:24px;color:var(--accent)}
+.note{background:var(--bg);border-radius:10px;padding:10px 12px;font-size:15px;color:var(--muted)}
+.note b{color:var(--ink)}
+.reflist .row{grid-template-columns:1fr auto}
+.qtd{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.qtd div{background:var(--bg);border-radius:10px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.qtd b{font-family:var(--font-display);font-size:28px;line-height:1;color:var(--accent)}
+.qtd span{font-size:14px;color:var(--muted);line-height:1.2}
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form .full{grid-column:1 / -1}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:14px;font-weight:600;color:var(--muted)}
+.treino-atual{font-weight:600}
+.btn{font:inherit;font-weight:700;background:var(--accent);color:var(--on-accent);border:0;border-radius:10px;min-height:48px;padding:10px 16px;cursor:pointer}
+.btn[disabled]{opacity:.6;cursor:default}
+.btn-sec{font:inherit;font-weight:700;background:transparent;color:var(--accent);border:1.5px solid var(--accent);border-radius:10px;min-height:48px;padding:10px 16px;cursor:pointer}
+textarea{font-size:14px;resize:vertical}
+.status{font-size:14px;color:var(--muted);min-height:1.2em}
+.status.err{color:var(--warn)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{background:var(--bg);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:2px}
+.tile span{font-size:13px;color:var(--muted)}
+.tile b{font-family:var(--font-display);font-size:26px;font-variant-numeric:tabular-nums;line-height:1.1}
+.pill{display:inline-block;border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.good{background:var(--good-soft);color:var(--good)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.idle{background:var(--bg);color:var(--muted)}
+.log{display:flex;flex-direction:column}
+.log button{font:inherit;color:inherit;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:10px 0;display:grid;grid-template-columns:76px 1fr auto;gap:10px;align-items:baseline;cursor:pointer;min-height:44px}
+.log button:first-child{border-top:0}
+.log .d{font-family:var(--font-display);font-weight:700;font-size:17px;text-transform:uppercase}
+.log .t{font-size:15px}
+.log .t small{display:block;color:var(--muted)}
+.log .p{font-family:var(--font-display);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.empty{color:var(--muted);font-size:15px}
+footer{color:var(--muted);font-size:14px;text-align:center;padding:0 8px}
+[hidden]{display:none !important}
+@media (max-width:420px){
+  h1{font-size:36px}
+  .row{grid-template-columns:1fr auto}
+  .row .when{grid-column:1 / -1;font-size:16px;color:var(--accent)}
+  .qtd{grid-template-columns:repeat(2,1fr)}
+  .tiles{grid-template-columns:1fr 1fr}
+  .tiles .tile:last-child{grid-column:1 / -1}
+}
+@media (prefers-reduced-motion: reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Plano para 83 kg</h1>
+    <p class="sub">Ganho de massa com pouca gordura: de 79 para 83 kg em uns 3 a 5 meses. Ajustado para metabolismo acelerado.</p>
+    <div class="stats">
+      <span class="stat">Base <b>3.060</b> kcal</span>
+      <span class="stat">Proteína <b>~170</b> g</span>
+      <span class="stat">Ritmo <b>+0,25 a 0,5</b> kg/semana</span>
+    </div>
+  </header>
+
+  <section class="card hoje" aria-labelledby="h-hoje">
+    <h2 id="h-hoje">O que comer hoje</h2>
+    <div class="group">
+      <p class="label" id="lbl-treino">Treino do dia</p>
+      <div class="chips" role="group" aria-labelledby="lbl-treino">
+        <button type="button" class="chip" id="chip-musc" aria-pressed="false">Musculação <small>1 h</small></button>
+        <button type="button" class="chip" id="chip-boxe" aria-pressed="false">Boxe <small>1 h</small></button>
+        <button type="button" class="chip" id="chip-corrida" aria-pressed="false">Corrida</button>
+      </div>
+      <div class="km" id="km-wrap" hidden>
+        <span>Distância</span>
+        <button type="button" class="step" id="km-menos" aria-label="Diminuir 1 km">−</button>
+        <input id="km" type="text" inputmode="decimal" aria-label="Distância da corrida em km" value="8">
+        <button type="button" class="step" id="km-mais" aria-label="Aumentar 1 km">+</button>
+        <span>km</span>
+      </div>
+    </div>
+
+    <div class="result" aria-live="polite">
+      <div class="n"><span class="big" id="ref-n">0</span><span class="big-label" id="ref-label">reforços</span></div>
+      <div class="kcal">no dia, cerca de<b><span id="kcal-dia">3.060</span> kcal</b></div>
+    </div>
+
+    <div class="group">
+      <p class="label">Onde encaixar os reforços</p>
+      <ul class="plain" id="onde"></ul>
+    </div>
+    <div class="group">
+      <p class="label">Horários</p>
+      <ul class="plain tips" id="dicas"></ul>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-base">
+    <h2 id="h-base">Plano base</h2>
+    <p class="sub">Todo dia, com ou sem treino. Já inclui as calorias a mais para quem tem metabolismo acelerado ganhar massa.</p>
+    <div class="rows">
+      <div class="row"><span class="when">Café</span><span>3 ovos + polenta cozida (~200 g) + 1 fatia de pão com requeijão</span><span class="k">450</span></div>
+      <div class="row"><span class="when">10h</span><span>40 g de castanha</span><span class="k">250</span></div>
+      <div class="row"><span class="when">Almoço</span><span>Prato de 500 a 700 g: arroz, feijão, farofa e 150 a 200 g de carne</span><span class="k">1.000</span></div>
+      <div class="row"><span class="when">Tarde</span><span>40 g de Sucrilhos + 1 Pense Zero + 2 colheres de leite em pó + 30 g de aveia + 1 colher de pasta de amendoim</span><span class="k">500</span></div>
+      <div class="row"><span class="when">Jantar</span><span>150 g de frango + 30 g de requeijão + 5 fatias de pão + 300 ml de suco de uva</span><span class="k">860</span></div>
+      <div class="row total"><span class="when">Total</span><span>Cerca de 170 g de proteína</span><span class="k">3.060 <small>kcal</small></span></div>
+    </div>
+    <p class="note"><b>Dia de churrasco:</b> ele substitui o jantar. Coma a carne normalmente e acompanhe com pão, arroz ou farofa.</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-ref">
+    <h2 id="h-ref">Reforços</h2>
+    <p class="sub">Cada reforço tem cerca de 300 kcal. Escolha o mais prático no dia.</p>
+    <div class="qtd" aria-label="Reforços por treino">
+      <div><b>1</b><span>Musculação (1 h)</span></div>
+      <div><b>2</b><span>Boxe (1 h)</span></div>
+      <div><b>1</b><span>a cada 4 km de corrida</span></div>
+      <div><b>0</b><span>Descanso</span></div>
+    </div>
+    <div class="rows reflist">
+      <div class="row"><span>1 dose de hipercalórico <small class="sub">(se a dose passar de 500 kcal no rótulo, conta como 2)</small></span><span class="k">~300</span></div>
+      <div class="row"><span>2 fatias de pão + 2 ovos</span><span class="k">290</span></div>
+      <div class="row"><span>Sucrilhos extra: 40 g + 1 Pense Zero + 2 colheres de leite em pó</span><span class="k">300</span></div>
+      <div class="row"><span>Prato extra: 4 colheres de arroz + 1 concha de feijão + 2 colheres de farofa</span><span class="k">300</span></div>
+      <div class="row"><span>45 g de castanha</span><span class="k">290</span></div>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="h-reg">
+    <h2 id="h-reg">Registro</h2>
+    <p class="sub">Anote o treino todo dia. O peso, 3 vezes por semana, de manhã em jejum. A cintura, a cada 2 semanas, na altura do umbigo.</p>
+    <form id="form" novalidate>
+      <div class="field"><label for="data">Data</label><input id="data" type="date"></div>
+      <div class="field"><label>Treino</label><span class="treino-atual" id="treino-atual">Descanso</span></div>
+      <div class="field"><label for="peso">Peso (kg)</label><input id="peso" type="text" inputmode="decimal" placeholder="79,0"></div>
+      <div class="field"><label for="cintura">Cintura (cm)</label><input id="cintura" type="text" inputmode="decimal" placeholder="opcional"></div>
+      <div class="field full"><label for="nota">Observação</label><input id="nota" type="text" maxlength="200" placeholder="Ex.: churrasco, dormi mal, treino pesado"></div>
+      <button class="btn full" id="salvar" type="submit">Salvar registro</button>
+      <p class="status full" id="status" role="status"></p>
+    </form>
+
+    <div class="tiles">
+      <div class="tile"><span>Média dos últimos 7 dias</span><b id="m1">—</b></div>
+      <div class="tile"><span>7 dias antes</span><b id="m0">—</b></div>
+      <div class="tile"><span>Ritmo</span><span><span class="pill idle" id="ritmo">Sem dados</span></span></div>
+    </div>
+    <p class="sub" id="cintura-resumo" hidden></p>
+    <div class="log" id="log"></div>
+    <button type="button" class="btn-sec" id="copiar">Copiar registros para mandar ao Claude</button>
+    <textarea id="copia" rows="6" readonly hidden aria-label="Registros para copiar"></textarea>
+  </section>
+
+  <section class="card" aria-labelledby="h-aj">
+    <h2 id="h-aj">Como ajustar</h2>
+    <ul class="plain">
+      <li><b>Ganhando menos de 0,2 kg por semana</b> por 2 semanas seguidas: acrescente 1 reforço por dia. Com metabolismo acelerado, isso pode acontecer mais de uma vez.</li>
+      <li><b>Ganhando mais de 0,5 kg por semana</b>, ou a cintura subindo mais de 1 cm em 2 semanas: tire a pasta de amendoim e a aveia da tarde (cerca de 200 kcal).</li>
+      <li><b>Entre 0,25 e 0,5 kg por semana:</b> está no ritmo, não mude nada.</li>
+    </ul>
+  </section>
+
+  <footer>Valores estimados a partir do que você contou. A cada 3 semanas, copie seus registros e mande ao Claude para revisar o plano.</footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var BASE_KCAL = 3060, REF_KCAL = 300, LS_KEY = "plano83-registros";
+  var $ = function(s){ return document.querySelector(s); };
+  var state = { musc:false, boxe:false, corrida:false, km:8 };
+  var entries = [];
+  var store = null;
+  var firstLoad = true;
+
+  function pad(n){ return String(n).padStart(2, "0"); }
+  function today(){ var d = new Date(); return d.getFullYear() + "-" + pad(d.getMonth()+1) + "-" + pad(d.getDate()); }
+  function fmt(n, dec){ return Number(n).toLocaleString("pt-BR", { minimumFractionDigits: dec||0, maximumFractionDigits: dec||0 }); }
+  function fmtKm(k){ return Number(k).toLocaleString("pt-BR", { maximumFractionDigits: 1 }); }
+  function parseNum(v){
+    if (v == null) return null;
+    var s = String(v).trim().replace(",", ".");
+    if (!s) return null;
+    var n = parseFloat(s);
+    return isFinite(n) ? n : null;
+  }
+  function refCorrida(km){ return km > 0 ? Math.max(1, Math.round(km / 4)) : 0; }
+  function calc(s){ return (s.musc ? 1 : 0) + (s.boxe ? 2 : 0) + (s.corrida ? refCorrida(s.km) : 0); }
+  function treinoTxt(s){
+    var p = [];
+    if (s.musc) p.push("Musculação");
+    if (s.boxe) p.push("Boxe");
+    if (s.corrida) p.push("Corrida " + fmtKm(s.km) + " km");
+    return p.length ? p.join(" + ") : "Descanso";
+  }
+  function esc(t){ return String(t).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]; }); }
+
+  function renderHoje(){
+    ["musc","boxe","corrida"].forEach(function(k){ $("#chip-" + k).setAttribute("aria-pressed", state[k] ? "true" : "false"); });
+    $("#km-wrap").hidden = !state.corrida;
+    if (document.activeElement !== $("#km")) $("#km").value = fmtKm(state.km);
+    var r = calc(state);
+    $("#ref-n").textContent = r;
+    $("#ref-label").textContent = r === 1 ? "reforço" : "reforços";
+    $("#kcal-dia").textContent = fmt(BASE_KCAL + r * REF_KCAL);
+
+    var onde = [];
+    if (!r) onde.push("Dia de descanso: siga só o plano base. O músculo cresce no descanso, então não pule refeições.");
+    if (state.musc) onde.push("<b>1</b> logo depois da musculação: 2 fatias de pão com 2 ovos.");
+    if (state.corrida){
+      var n = refCorrida(state.km);
+      onde.push("<b>1</b> logo depois da corrida: a dose de hipercalórico.");
+      if (n > 1) onde.push("<b>" + (n - 1) + "</b> na refeição seguinte: prato extra ou Sucrilhos extra.");
+    }
+    if (state.boxe){
+      onde.push("<b>1</b> no jantar depois do boxe: prato extra de arroz, feijão e farofa.");
+      onde.push("<b>1</b> antes de dormir: pão com ovos ou 45 g de castanha.");
+    }
+    $("#onde").innerHTML = onde.map(function(t){ return "<li>" + t + "</li>"; }).join("");
+
+    var dicas = [];
+    if (state.musc) dicas.push("Musculação de manhã: tome o café 1 h a 1 h 30 antes. Se treinar logo cedo, coma a polenta antes e os ovos depois.");
+    if (state.boxe) dicas.push("Boxe à noite: faça o lanche da tarde 1 h 30 a 2 h antes e jante depois do treino, mesmo que fique tarde.");
+    if (state.corrida) dicas.push(state.km >= 12
+      ? "Corrida longa: 1 hora antes, coma 2 fatias de pão com requeijão ou o Sucrilhos. Leve água."
+      : "Corrida de até 1 hora: pode sair 1 a 2 horas depois de uma refeição, sem comer nada especial antes.");
+    if (!dicas.length) dicas.push("Mantenha os horários de sempre.");
+    $("#dicas").innerHTML = dicas.map(function(t){ return "<li>" + esc(t) + "</li>"; }).join("");
+
+    $("#treino-atual").textContent = treinoTxt(state) + (r ? " (" + r + (r === 1 ? " reforço)" : " reforços)") : "");
+  }
+
+  ["musc","boxe","corrida"].forEach(function(k){
+    $("#chip-" + k).addEventListener("click", function(){ state[k] = !state[k]; renderHoje(); });
+  });
+  function setKm(v){ var n = Math.min(60, Math.max(1, Math.round(v * 10) / 10)); state.km = n; renderHoje(); }
+  $("#km-menos").addEventListener("click", function(){ setKm(state.km - 1); });
+  $("#km-mais").addEventListener("click", function(){ setKm(state.km + 1); });
+  $("#km").addEventListener("input", function(){ var n = parseNum(this.value); if (n != null && n > 0){ state.km = Math.min(60, n); var keep = this.value; renderHoje(); this.value = keep; } });
+  $("#km").addEventListener("blur", function(){ this.value = fmtKm(state.km); });
+
+  // ---------- registro ----------
+  function setStatus(t, err){ var s = $("#status"); s.textContent = t; s.classList.toggle("err", !!err); }
+
+  function loadIntoForm(date){
+    var e = null;
+    for (var i = 0; i < entries.length; i++) if (entries[i].data === date) { e = entries[i]; break; }
+    $("#data").value = date;
+    if (e){
+      state.musc = !!e.musculacao; state.boxe = !!e.boxe; state.corrida = !!e.corrida;
+      if (e.corrida && e.km) state.km = Number(e.km);
+      $("#peso").value = e.peso != null ? fmt(e.peso, 1) : "";
+      $("#cintura").value = e.cintura != null ? fmtKm(e.cintura) : "";
+      $("#nota").value = e.nota || "";
+    } else {
+      $("#peso").value = ""; $("#cintura").value = ""; $("#nota").value = "";
+    }
+    renderHoje();
+  }
+
+  var DIAS = ["dom","seg","ter","qua","qui","sex","sáb"];
+  function dateObj(s){ return new Date(s + "T12:00:00"); }
+  function dLabel(s){ var d = dateObj(s); return DIAS[d.getDay()] + " " + pad(d.getDate()) + "/" + pad(d.getMonth()+1); }
+  function avg(a){ if (!a.length) return null; var t = 0; a.forEach(function(x){ t += x; }); return t / a.length; }
+
+  function renderLog(){
+    var list = entries.slice().sort(function(a,b){ return a.data < b.data ? 1 : -1; });
+    var box = $("#log");
+    if (!list.length){
+      box.innerHTML = '<p class="empty">Nenhum registro ainda. Salve o de hoje.</p>';
+    } else {
+      box.innerHTML = list.slice(0, 21).map(function(e){
+        var extra = [];
+        if (e.reforcos != null) extra.push(e.reforcos + (e.reforcos === 1 ? " reforço" : " reforços"));
+        if (e.cintura != null) extra.push("cintura " + fmtKm(e.cintura) + " cm");
+        if (e.nota) extra.push(e.nota);
+        return '<button type="button" data-date="' + esc(e.data) + '"><span class="d">' + esc(dLabel(e.data)) + '</span>' +
+          '<span class="t">' + esc(e.treino || "Descanso") + (extra.length ? "<small>" + esc(extra.join(" · ")) + "</small>" : "") + '</span>' +
+          '<span class="p">' + (e.peso != null ? fmt(e.peso, 1) + " kg" : "") + '</span></button>';
+      }).join("");
+    }
+
+    var ref = dateObj(today());
+    function ago(s){ return Math.round((ref - dateObj(s)) / 86400000); }
+    var w1 = [], w0 = [];
+    entries.forEach(function(e){
+      if (e.peso == null) return;
+      var a = ago(e.data);
+      if (a >= 0 && a < 7) w1.push(e.peso); else if (a >= 7 && a < 14) w0.push(e.peso);
+    });
+    var a1 = avg(w1), a0 = avg(w0);
+    $("#m1").textContent = a1 != null ? fmt(a1, 1) + " kg" : "—";
+    $("#m0").textContent = a0 != null ? fmt(a0, 1) + " kg" : "—";
+    var pill = $("#ritmo");
+    if (a1 != null && a0 != null){
+      var d = a1 - a0;
+      var sinal = (d >= 0 ? "+" : "") + fmt(d, 1) + " kg";
+      if (d < 0.2){ pill.className = "pill warn"; pill.textContent = sinal + ", devagar"; }
+      else if (d > 0.5){ pill.className = "pill warn"; pill.textContent = sinal + ", rápido"; }
+      else { pill.className = "pill good"; pill.textContent = sinal + ", no ritmo"; }
+    } else {
+      pill.className = "pill idle"; pill.textContent = "Pese-se 3x por semana";
+    }
+
+    var cint = entries.filter(function(e){ return e.cintura != null; }).sort(function(a,b){ return a.data < b.data ? -1 : 1; });
+    var cr = $("#cintura-resumo");
+    if (cint.length >= 2){
+      cr.hidden = false;
+      cr.textContent = "Cintura: " + fmtKm(cint[0].cintura) + " cm em " + dLabel(cint[0].data) + ", " + fmtKm(cint[cint.length-1].cintura) + " cm em " + dLabel(cint[cint.length-1].data) + ".";
+    } else if (cint.length === 1){
+      cr.hidden = false;
+      cr.textContent = "Cintura inicial: " + fmtKm(cint[0].cintura) + " cm. Meça de novo daqui a 2 semanas.";
+    } else { cr.hidden = true; }
+  }
+
+  $("#log").addEventListener("click", function(ev){
+    var b = ev.target.closest("button[data-date]");
+    if (!b) return;
+    loadIntoForm(b.getAttribute("data-date"));
+    $("#h-hoje").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  $("#data").addEventListener("change", function(){ if (this.value) loadIntoForm(this.value); });
+
+  $("#form").addEventListener("submit", function(ev){
+    ev.preventDefault();
+    if (!store){ setStatus("Ainda conectando. Tente de novo em alguns segundos.", true); return; }
+    var date = $("#data").value || today();
+    var peso = parseNum($("#peso").value), cintura = parseNum($("#cintura").value);
+    if (peso != null && (peso < 40 || peso > 200)){ setStatus("Confira o peso: use quilos, por exemplo 79,4.", true); return; }
+    if (cintura != null && (cintura < 50 || cintura > 160)){ setStatus("Confira a cintura: use centímetros, por exemplo 82.", true); return; }
+    var e = {
+      data: date,
+      musculacao: state.musc, boxe: state.boxe, corrida: state.corrida,
+      km: state.corrida ? state.km : 0,
+      reforcos: calc(state),
+      kcal: BASE_KCAL + calc(state) * REF_KCAL,
+      treino: treinoTxt(state),
+      peso: peso, cintura: cintura,
+      nota: $("#nota").value.trim().slice(0, 200),
+      salvoEm: new Date().toISOString()
+    };
+    var btn = $("#salvar"); btn.disabled = true; setStatus("Salvando…");
+    store.save(e).then(function(){
+      setStatus("Registro de " + dLabel(date) + " salvo.");
+    }).catch(function(err){
+      var code = err && err.code;
+      if (code === "quota_exceeded") setStatus("O espaço de registros está cheio. Peça ao Claude para limpar os antigos.", true);
+      else if (code === "invalid_argument") setStatus("Você não tem permissão para salvar nesta página.", true);
+      else setStatus("Não foi possível salvar agora. Tente de novo.", true);
+    }).then(function(){ btn.disabled = false; });
+  });
+
+  var lsOk = true;
+  function useLocal(){
+    var mem = [];
+    try { mem = JSON.parse(localStorage.getItem(LS_KEY) || "[]") || []; } catch(_) { mem = []; lsOk = false; }
+    if (!Array.isArray(mem)) mem = [];
+    entries = mem;
+    store = {
+      save: function(e){
+        entries = entries.filter(function(x){ return x.data !== e.data; }).concat([e]);
+        try { localStorage.setItem(LS_KEY, JSON.stringify(entries)); }
+        catch(_) { renderLog(); return Promise.reject({ code: "storage" }); }
+        renderLog();
+        return Promise.resolve();
+      }
+    };
+    setStatus(lsOk
+      ? "Os registros ficam salvos neste celular, neste navegador."
+      : "Este navegador não deixa salvar dados. Os registros valem só enquanto a página estiver aberta.", !lsOk);
+    renderLog();
+    loadIntoForm(today());
+  }
+
+  function textoRegistros(){
+    var list = entries.slice().sort(function(a,b){ return a.data < b.data ? -1 : 1; });
+    var linhas = ["Registros do Plano para 83 kg (data; treino; reforços; peso; cintura; observação)"];
+    list.forEach(function(e){
+      linhas.push([
+        e.data,
+        e.treino || "Descanso",
+        (e.reforcos != null ? e.reforcos : 0) + " reforços",
+        e.peso != null ? fmt(e.peso, 1) + " kg" : "-",
+        e.cintura != null ? fmtKm(e.cintura) + " cm" : "-",
+        e.nota || ""
+      ].join("; "));
+    });
+    return linhas.join("\n");
+  }
+
+  $("#copiar").addEventListener("click", function(){
+    var btn = this;
+    if (!entries.length){ btn.textContent = "Ainda não há registros para copiar"; setTimeout(function(){ btn.textContent = "Copiar registros para mandar ao Claude"; }, 2500); return; }
+    var txt = textoRegistros();
+    var ta = $("#copia");
+    function manual(){
+      ta.hidden = false; ta.value = txt; ta.focus(); ta.select();
+      btn.textContent = "Selecione o texto abaixo e copie";
+    }
+    try {
+      navigator.clipboard.writeText(txt).then(function(){
+        ta.hidden = true;
+        btn.textContent = "Copiado. Cole na conversa com o Claude.";
+        setTimeout(function(){ btn.textContent = "Copiar registros para mandar ao Claude"; }, 3000);
+      }, manual);
+    } catch(_) { manual(); }
+  });
+
+  $("#data").value = today();
+  useLocal();
+})();
+</script>
+</body>
+</html>
