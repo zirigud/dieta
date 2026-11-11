@@ -200,7 +200,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;padding:0 8px}
       <div><b>0</b><span>Descanso</span></div>
     </div>
     <div class="rows reflist">
-      <div class="row"><span>1 dose de hipercalórico <small class="sub">(se a dose passar de 500 kcal no rótulo, conta como 2)</small></span><span class="k">~300</span></div>
+      <div class="row"><span>Meia dose do Mass Titanium: 2,5 dosadores (80 g) <small class="sub">(a dose inteira, com 5 dosadores, tem 604 kcal e conta como 2 reforços)</small></span><span class="k">300</span></div>
       <div class="row"><span>2 fatias de pão + 2 ovos</span><span class="k">290</span></div>
       <div class="row"><span>Sucrilhos extra: 40 g + 1 Pense Zero + 2 colheres de leite em pó</span><span class="k">300</span></div>
       <div class="row"><span>Prato extra: 4 colheres de arroz + 1 concha de feijão + 2 colheres de farofa</span><span class="k">300</span></div>
@@ -290,8 +290,9 @@ footer{color:var(--muted);font-size:14px;text-align:center;padding:0 8px}
     if (state.musc) onde.push("<b>1</b> logo depois da musculação: 2 fatias de pão com 2 ovos.");
     if (state.corrida){
       var n = refCorrida(state.km);
-      onde.push("<b>1</b> logo depois da corrida: a dose de hipercalórico.");
-      if (n > 1) onde.push("<b>" + (n - 1) + "</b> na refeição seguinte: prato extra ou Sucrilhos extra.");
+      if (n === 1) onde.push("<b>1</b> logo depois da corrida: meia dose do Mass Titanium (2,5 dosadores).");
+      else onde.push("<b>2</b> logo depois da corrida: 1 dose inteira do Mass Titanium (5 dosadores, 604 kcal).");
+      if (n > 2) onde.push("<b>" + (n - 2) + "</b> na refeição seguinte: prato extra ou Sucrilhos extra.");
     }
     if (state.boxe){
       onde.push("<b>1</b> no jantar depois do boxe: prato extra de arroz, feijão e farofa.");
@@ -305,6 +306,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;padding:0 8px}
     if (state.corrida) dicas.push(state.km >= 12
       ? "Corrida longa: 1 hora antes, coma 2 fatias de pão com requeijão ou o Sucrilhos. Leve água."
       : "Corrida de até 1 hora: pode sair 1 a 2 horas depois de uma refeição, sem comer nada especial antes.");
+    if (state.corrida) dicas.push("Bata o Mass Titanium com 2 colheres de leite em pó: a proteína sobe de 17 g para cerca de 24 g. Deixe 1 a 2 horas até a próxima refeição.");
     if (!dicas.length) dicas.push("Mantenha os horários de sempre.");
     $("#dicas").innerHTML = dicas.map(function(t){ return "<li>" + esc(t) + "</li>"; }).join("");
 
